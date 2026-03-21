@@ -59,7 +59,7 @@ export function Sidebar() {
           Frequência
         </Link>
 
-        <Link href="/turmas" className={linkClass("/turmas")}>
+        <Link href="/matricula" className={linkClass("/matricula")}>
           <UserPlus />
           Matricula
         </Link>

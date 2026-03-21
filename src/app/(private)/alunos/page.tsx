@@ -15,7 +15,7 @@ import StudentsList from "@/components/Students";
 
 export default function AlunosPage() {
   return (
-    <div className="p-8">
+    <div>
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-foreground mb-2">Alunos</h1>
         <p className="text-muted-foreground">
