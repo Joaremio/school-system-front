@@ -27,7 +27,6 @@ const classes = [
 export default function MatriculaPage() {
   return (
     <div>
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-foreground mb-2">
           Nova Matrícula
