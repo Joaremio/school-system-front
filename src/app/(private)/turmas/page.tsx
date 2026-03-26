@@ -1,5 +1,5 @@
-import ClassroomList from "@/components/ClassroomList";
-import ClassroomStats from "@/components/ClassroomStats";
+import ClassroomList from "@/components/Classroom/ClassroomList";
+import ClassroomStats from "@/components/Classroom/ClassroomStats";
 
 export default function ClassroomPage() {
   return (

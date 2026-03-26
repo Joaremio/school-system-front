@@ -6,8 +6,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../ui/dialog";
-import { Input } from "../ui/input";
+} from "../../ui/dialog";
+import { Input } from "../../ui/input";
 import {
   Table,
   TableBody,
@@ -15,10 +15,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
-import { Checkbox } from "../ui/checkbox";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
+} from "../../ui/table";
+import { Checkbox } from "../../ui/checkbox";
+import { Badge } from "../../ui/badge";
+import { Button } from "../../ui/button";
 
 const availableStudents = [
   {

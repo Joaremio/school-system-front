@@ -1,4 +1,4 @@
-import EnrollmentForm from "@/components/EnrollmentForm";
+import EnrollmentForm from "@/components/Enrollment/EnrollmentForm";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

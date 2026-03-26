@@ -1,5 +1,5 @@
 import { BookOpen, Clock, Users } from "lucide-react";
-import { Card } from "../ui/card";
+import { Card } from "../../ui/card";
 
 export default function ClassroomStats() {
   return (

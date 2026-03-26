@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import StudentsList from "@/components/Students";
+import StudentsList from "@/components/Student/Students";
 
 export default function AlunosPage() {
   return (

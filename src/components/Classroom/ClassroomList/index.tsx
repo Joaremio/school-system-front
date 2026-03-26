@@ -1,10 +1,10 @@
 "use client";
 
 import { Clock, UserPlus } from "lucide-react";
-import { Card } from "../ui/card";
-import { Button } from "../ui/button";
-import { Progress } from "../ui/progress";
-import { Badge } from "../ui/badge";
+import { Card } from "../../ui/card";
+import { Button } from "../../ui/button";
+import { Progress } from "../../ui/progress";
+import { Badge } from "../../ui/badge";
 import ClassroomDialog from "../ClassroomDialog";
 import { useState } from "react";
 
