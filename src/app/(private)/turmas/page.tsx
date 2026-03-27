@@ -1,17 +1,13 @@
+import { ClassroomContent } from "@/components/Classroom/ClassroomContent";
 import ClassroomList from "@/components/Classroom/ClassroomList";
 import ClassroomStats from "@/components/Classroom/ClassroomStats";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function ClassroomPage() {
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-semibold text-foreground mb-2">Turmas</h1>
-        <p className="text-muted-foreground">
-          Gerencie todas as turmas do reforço escolar
-        </p>
-        <ClassroomStats />
-        <ClassroomList />
-      </div>
+    <div className="mb-8">
+      <ClassroomContent />
     </div>
   );
 }
