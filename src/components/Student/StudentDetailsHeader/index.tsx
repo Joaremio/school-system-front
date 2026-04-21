@@ -6,12 +6,14 @@ type StudentDetailsHeaderProps = {
   name: string;
   gradeLevel: GradeLevel;
   setIsOpen: (status: boolean) => void;
+  setIsOpenDelete: (status: boolean) => void;
 };
 
 export default function StudentDetailsHeader({
   name,
   gradeLevel,
   setIsOpen,
+  setIsOpenDelete,
 }: StudentDetailsHeaderProps) {
   return (
     <div className="mb-8">
@@ -29,7 +31,7 @@ export default function StudentDetailsHeader({
         </div>
         <div className="flex gap-4">
           <Button onClick={() => setIsOpen(true)}>Editar</Button>
-          <Button>Excluir</Button>
+          <Button onClick={() => setIsOpenDelete(true)}>Excluir</Button>
         </div>
       </div>
     </div>

@@ -18,3 +18,7 @@ export async function updateStudent(id: string, data: StudentRequest) {
   const response = await api.put(`/students/${id}`, data);
   return response.data;
 }
+
+export async function deleteStudent(id: number) {
+  await api.delete(`/students/${id}`);
+}

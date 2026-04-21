@@ -12,6 +12,7 @@ import StudentContact from "../StudentContact";
 import { formatDate } from "@/utils/date";
 import { useState } from "react";
 import StudentEditDialog from "../StudentEditDialog";
+import StudentDeleteDialog from "../StudentDeleteDialog";
 
 type StudentDetails = {
   student: StudentResponse;
@@ -19,6 +20,7 @@ type StudentDetails = {
 
 export default function StudentDetails({ student }: StudentDetails) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   return (
     <div className="mb-8">
@@ -26,6 +28,14 @@ export default function StudentDetails({ student }: StudentDetails) {
         <StudentEditDialog
           isOpen={isOpen}
           onOpenChange={setIsOpen}
+          student={student}
+        />
+      )}
+
+      {isOpenDelete && (
+        <StudentDeleteDialog
+          isOpen={isOpenDelete}
+          onOpenChange={setIsOpenDelete}
           student={student}
         />
       )}
@@ -40,6 +50,7 @@ export default function StudentDetails({ student }: StudentDetails) {
         name={student.name}
         gradeLevel={student.gradeLevel}
         setIsOpen={setIsOpen}
+        setIsOpenDelete={setIsOpenDelete}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
