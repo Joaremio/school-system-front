@@ -19,7 +19,7 @@ export default async function StudentDetailsPage({
   const student = res.data;
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 ">
       <StudentDetails student={student} />
     </div>
   );

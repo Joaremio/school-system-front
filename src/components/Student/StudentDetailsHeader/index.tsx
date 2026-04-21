@@ -5,11 +5,13 @@ import { Button } from "../../ui/button";
 type StudentDetailsHeaderProps = {
   name: string;
   gradeLevel: GradeLevel;
+  setIsOpen: (status: boolean) => void;
 };
 
 export default function StudentDetailsHeader({
   name,
   gradeLevel,
+  setIsOpen,
 }: StudentDetailsHeaderProps) {
   return (
     <div className="mb-8">
@@ -25,7 +27,10 @@ export default function StudentDetailsHeader({
             </span>
           </div>
         </div>
-        <Button>Editar Perfil</Button>
+        <div className="flex gap-4">
+          <Button onClick={() => setIsOpen(true)}>Editar</Button>
+          <Button>Excluir</Button>
+        </div>
       </div>
     </div>
   );

@@ -84,6 +84,7 @@ export default function EnrollmentForm() {
                       <InputForm
                         labelText="CPF *"
                         mask="000.000.000-00"
+                        placeholder="Digite o CPF do aluno"
                         value={field.value}
                         onChange={field.onChange}
                         error={errors.cpf?.message}
@@ -151,6 +152,7 @@ export default function EnrollmentForm() {
                     render={({ field }) => (
                       <InputForm
                         labelText="CPF do Responsável *"
+                        placeholder="Digite o CPF do responsável"
                         mask="000.000.000-00"
                         value={field.value}
                         onChange={field.onChange}
@@ -167,6 +169,7 @@ export default function EnrollmentForm() {
                     render={({ field }) => (
                       <InputForm
                         labelText="Telefone *"
+                        placeholder="Digite o telefone"
                         mask="(00) 00000-0000"
                         value={field.value}
                         onChange={field.onChange}

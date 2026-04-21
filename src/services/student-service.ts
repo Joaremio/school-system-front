@@ -13,3 +13,8 @@ export function getStudents() {
 export function getStudent(id: number) {
   return api.get<StudentResponse>(`/students/${id}`);
 }
+
+export async function updateStudent(id: string, data: StudentRequest) {
+  const response = await api.put(`/students/${id}`, data);
+  return response.data;
+}
