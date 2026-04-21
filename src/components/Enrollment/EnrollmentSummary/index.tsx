@@ -1,8 +1,15 @@
+import { StudentRequest } from "@/app/schemas/studentSchema";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { GradeLevelLabels } from "@/enums/gradeLevel";
+
 import { Save } from "lucide-react";
 
-export default function EnrollmentSummary() {
+type EnrollmentSummaryProps = {
+  data: Partial<StudentRequest>;
+};
+
+export default function EnrollmentSummary({ data }: EnrollmentSummaryProps) {
   return (
     <div className="lg:col-span-1">
       <Card className="p-4 sticky top-8">
@@ -10,28 +17,44 @@ export default function EnrollmentSummary() {
         <div className="space-y-3 mb-6">
           <div>
             <p className="text-xs text-muted-foreground">Aluno</p>
-            <p className="font-medium">Não informado</p>
+            <p className="font-medium">{data.name || "Não informado"}</p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Turma</p>
-            <p className="font-medium">Não selecionada</p>
+            <p className="text-xs text-muted-foreground">Série</p>
+            <p className="font-medium">
+              {data.gradeLevel
+                ? GradeLevelLabels[data.gradeLevel]
+                : "Não selecionada"}
+            </p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Responsável</p>
-            <p className="font-medium">Não informado</p>
+            <p className="font-medium">
+              {data.responsibleName || "Não informado"}
+            </p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Contato</p>
-            <p className="font-medium text-sm">Não informado</p>
+            <p className="font-medium text-sm">
+              {data.responsiblePhone || "Não informado"}
+            </p>
           </div>
         </div>
 
         <div className="border-t pt-4 space-y-3">
-          <Button type="submit" className="w-full gap-2">
+          <Button
+            type="submit"
+            className="w-full gap-2 cursor-pointer hover:bg-accent-foreground"
+            form="enrollment-form"
+          >
             <Save className="w-4 h-4" />
             Confirmar Matrícula
           </Button>
-          <Button type="button" variant="outline" className="w-full">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full cursor-pointer"
+          >
             Cancelar
           </Button>
         </div>

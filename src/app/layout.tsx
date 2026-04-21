@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/SideBar";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br" className="h-full antialiased">
-      <body className="h-full bg-background">{children}</body>
+      <body className="h-full bg-background">
+        {children}
+        <Toaster richColors position="top-right" />
+      </body>
     </html>
   );
 }

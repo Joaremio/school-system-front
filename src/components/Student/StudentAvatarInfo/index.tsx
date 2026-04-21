@@ -1,18 +1,20 @@
 import { Card } from "@/components/ui/card";
+import { GradeLevel, GradeLevelLabels } from "@/enums/gradeLevel";
+import { calculateAge } from "@/utils/calculateAge";
 import { Calendar, GraduationCap, User } from "lucide-react";
 
 type StudentAvatarInfoProps = {
   name: string;
-  age: string;
-  enrollmentDate: string;
-  classe: string;
+  birthDate: string;
+  createdAt: string;
+  gradeLevel: GradeLevel;
 };
 
 export default function StudentAvatarInfo({
   name,
-  age,
-  enrollmentDate,
-  classe,
+  birthDate,
+  createdAt,
+  gradeLevel,
 }: StudentAvatarInfoProps) {
   return (
     <Card className="p-6">
@@ -21,7 +23,9 @@ export default function StudentAvatarInfo({
           <User className="w-12 h-12" />
         </div>
         <h3 className="text-xl font-semibold mb-1">{name}</h3>
-        <p className="text-sm text-muted-foreground">{age} anos</p>
+        <p className="text-sm text-muted-foreground">
+          {calculateAge(birthDate)} anos
+        </p>
       </div>
 
       <div className="space-y-4">
@@ -29,7 +33,7 @@ export default function StudentAvatarInfo({
           <Calendar className="w-5 h-5 text-muted-foreground mt-0.5" />
           <div>
             <p className="text-sm font-medium">Data de Matrícula</p>
-            <p className="text-sm text-muted-foreground">{enrollmentDate}</p>
+            <p className="text-sm text-muted-foreground">{createdAt}</p>
           </div>
         </div>
 
@@ -37,7 +41,9 @@ export default function StudentAvatarInfo({
           <GraduationCap className="w-5 h-5 text-muted-foreground mt-0.5" />
           <div>
             <p className="text-sm font-medium">Turma</p>
-            <p className="text-sm text-muted-foreground">{classe}</p>
+            <p className="text-sm text-muted-foreground">
+              {GradeLevelLabels[gradeLevel]}
+            </p>
           </div>
         </div>
       </div>

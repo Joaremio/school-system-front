@@ -1,7 +1,7 @@
-import { Save, UserPlus } from "lucide-react";
+"use client";
+
+import { UserPlus } from "lucide-react";
 import { Card } from "../../ui/card";
-import { Label } from "../../ui/label";
-import { Input } from "../../ui/input";
 import {
   Select,
   SelectContent,
@@ -9,13 +9,54 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
-import { Textarea } from "../../ui/textarea";
 import { Button } from "../../ui/button";
 import EnrollmentSummary from "../EnrollmentSummary";
+import { InputForm } from "@/components/InputForm";
+import { Controller, useForm, Watch } from "react-hook-form";
+
+import { createStudent } from "@/services/student-service";
+import { GradeLevel, GradeLevelLabels } from "@/enums/gradeLevel"; //
+import { StudentRequest, studentSchema } from "@/app/schemas/studentSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { InputMask } from "@/components/InputMask";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function EnrollmentForm() {
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<StudentRequest>({
+    resolver: zodResolver(studentSchema),
+  });
+
+  const router = useRouter();
+
+  async function handleCreate(data: StudentRequest) {
+    try {
+      const sanitizedData = {
+        ...data,
+        cpf: data.cpf.replace(/\D/g, ""),
+        responsibleCpf: data.responsibleCpf.replace(/\D/g, ""),
+        responsiblePhone: data.responsiblePhone.replace(/\D/g, ""),
+      };
+
+      await createStudent(sanitizedData);
+      toast.success("Aluno matriculado com sucesso!");
+      router.push("/alunos");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const formData = watch();
+
   return (
-    <form>
+    <form id="enrollment-form" onSubmit={handleSubmit(handleCreate)}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <Card className="p-6">
@@ -25,18 +66,65 @@ export default function EnrollmentForm() {
                 Dados do Aluno
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                <div className="md:col-span-2">
-                  <Label htmlFor="studentName">Nome Completo *</Label>
-                  <Input
-                    id="studentName"
+                <div className="span-2">
+                  <InputForm
+                    labelText="Nome Completo *"
                     required
                     placeholder="Digite o nome completo do aluno"
+                    {...register("name")}
+                    error={errors.name?.message}
+                  />
+                </div>
+
+                <div className="span-2">
+                  <Controller
+                    name="cpf"
+                    control={control}
+                    render={({ field }) => (
+                      <InputForm
+                        labelText="CPF *"
+                        mask="000.000.000-00"
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={errors.cpf?.message}
+                      />
+                    )}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="age">Idade *</Label>
-                  <Input id="age" type="number" required placeholder="Ex: 10" />
+                  <InputForm
+                    labelText="Data de nascimento *"
+                    required
+                    type="date"
+                    {...register("birthDate")}
+                    error={errors.birthDate?.message}
+                  />
+                </div>
+
+                <div>
+                  <label>Série*</label>
+                  <Select
+                    onValueChange={(value) =>
+                      setValue("gradeLevel", value as GradeLevel)
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione o ano" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.values(GradeLevel).map((level) => (
+                        <SelectItem key={level} value={level}>
+                          {GradeLevelLabels[level]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {errors.gradeLevel && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors.gradeLevel.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -46,56 +134,83 @@ export default function EnrollmentForm() {
                 Dados do Responsável
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="md:col-span-2">
-                  <Label htmlFor="parentName">Nome do Responsável *</Label>
-                  <Input
-                    id="parentName"
+                <div className="md:span-2">
+                  <InputForm
+                    labelText="Nome do Responsável"
                     required
                     placeholder="Digite o nome do responsável"
+                    {...register("responsibleName")}
+                    error={errors.responsibleName?.message}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="email">E-mail *</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    required
-                    placeholder="email@exemplo.com"
+                  <Controller
+                    name="responsibleCpf"
+                    control={control}
+                    render={({ field }) => (
+                      <InputForm
+                        labelText="CPF do Responsável *"
+                        mask="000.000.000-00"
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={errors.responsibleCpf?.message}
+                      />
+                    )}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="phone">Telefone *</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
+                  <Controller
+                    name="responsiblePhone"
+                    control={control}
+                    render={({ field }) => (
+                      <InputForm
+                        labelText="Telefone *"
+                        mask="(00) 00000-0000"
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={errors.responsiblePhone?.message}
+                      />
+                    )}
+                  />
+                </div>
+
+                <div>
+                  <InputForm
+                    labelText="Rua"
                     required
-                    placeholder="(11) 98765-4321"
+                    placeholder="Rua Prefeito Luiz Gomes"
+                    {...register("address.street")}
+                    error={errors.address?.street?.message}
                   />
                 </div>
 
-                <div className="md:col-span-2">
-                  <Label htmlFor="address">Endereço Completo</Label>
-                  <Input
-                    id="address"
-                    placeholder="Rua, número, bairro, cidade - UF"
+                <div>
+                  <InputForm
+                    labelText="Número"
+                    type="text"
+                    required
+                    placeholder="150"
+                    {...register("address.number")}
+                    error={errors.address?.number?.message}
                   />
                 </div>
 
-                <div className="md:col-span-2">
-                  <Label htmlFor="notes">Observações</Label>
-                  <Textarea
-                    id="notes"
-                    placeholder="Informações adicionais sobre o aluno (opcional)"
-                    rows={4}
+                <div>
+                  <InputForm
+                    labelText="Cidade"
+                    required
+                    placeholder="Taipu"
+                    {...register("address.city")}
+                    error={errors.address?.city?.message}
                   />
                 </div>
               </div>
             </div>
           </Card>
         </div>
-        <EnrollmentSummary />
+        <EnrollmentSummary data={formData} />
       </div>
     </form>
   );

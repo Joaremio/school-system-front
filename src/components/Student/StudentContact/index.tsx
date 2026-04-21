@@ -2,15 +2,17 @@ import { Card } from "@/components/ui/card";
 import { Mail, MapPin, Phone, User } from "lucide-react";
 
 type StudentContactProps = {
-  parent: string;
-  email: string;
-  phone: string;
-  address: string;
+  responsibleName: string;
+  responsiblePhone: string;
+  address: {
+    street: string;
+    number: string;
+    city: string;
+  };
 };
 export default function StudentContact({
-  parent,
-  email,
-  phone,
+  responsibleName,
+  responsiblePhone,
   address,
 }: StudentContactProps) {
   return (
@@ -21,15 +23,7 @@ export default function StudentContact({
           <User className="w-5 h-5 text-muted-foreground mt-0.5" />
           <div>
             <p className="text-sm font-medium">Responsável</p>
-            <p className="text-sm text-muted-foreground">{parent}</p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <Mail className="w-5 h-5 text-muted-foreground mt-0.5" />
-          <div>
-            <p className="text-sm font-medium">E-mail</p>
-            <p className="text-sm text-muted-foreground">{email}</p>
+            <p className="text-sm text-muted-foreground">{responsibleName}</p>
           </div>
         </div>
 
@@ -37,7 +31,7 @@ export default function StudentContact({
           <Phone className="w-5 h-5 text-muted-foreground mt-0.5" />
           <div>
             <p className="text-sm font-medium">Telefone</p>
-            <p className="text-sm text-muted-foreground">{phone}</p>
+            <p className="text-sm text-muted-foreground">{responsiblePhone}</p>
           </div>
         </div>
 
@@ -45,7 +39,9 @@ export default function StudentContact({
           <MapPin className="w-5 h-5 text-muted-foreground mt-0.5" />
           <div>
             <p className="text-sm font-medium">Endereço</p>
-            <p className="text-sm text-muted-foreground">{address}</p>
+            <p className="text-sm text-muted-foreground">
+              {address.street}, {address.number} - {address.city}
+            </p>
           </div>
         </div>
       </div>

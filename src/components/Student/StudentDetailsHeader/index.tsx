@@ -1,16 +1,15 @@
+import { GradeLevel, GradeLevelLabels } from "@/enums/gradeLevel";
 import { Badge } from "../../ui/badge";
 import { Button } from "../../ui/button";
 
 type StudentDetailsHeaderProps = {
   name: string;
-  status: string;
-  classe: string;
+  gradeLevel: GradeLevel;
 };
 
 export default function StudentDetailsHeader({
   name,
-  status,
-  classe,
+  gradeLevel,
 }: StudentDetailsHeaderProps) {
   return (
     <div className="mb-8">
@@ -20,14 +19,10 @@ export default function StudentDetailsHeader({
             {name}
           </h1>
           <div className="flex items-center gap-2">
-            <Badge
-              variant="outline"
-              className="bg-green-50 text-green-700 border-green-200"
-            >
-              {status}
-            </Badge>
-            <span className="text-muted-foreground">•</span>
-            <span className="text-muted-foreground">{classe}</span>
+            <span className="text-muted-foreground">
+              {" "}
+              {GradeLevelLabels[gradeLevel]}
+            </span>
           </div>
         </div>
         <Button>Editar Perfil</Button>

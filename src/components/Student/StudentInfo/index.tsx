@@ -1,40 +1,25 @@
+import { StudentResponse } from "@/types/student";
 import StudentAvatarInfo from "../StudentAvatarInfo";
 import StudentContact from "../StudentContact";
+import { calculateAge } from "@/utils/calculateAge";
+import { formatDate } from "@/utils/date";
 
 type StudentInfoProps = {
-  name: string;
-  age: string;
-  enrollmentDate: string;
-  classe: string;
-  parent: string;
-  email: string;
-  phone: string;
-  address: string;
+  student: StudentResponse;
 };
-
-export default function StudentInfo({
-  name,
-  age,
-  enrollmentDate,
-  classe,
-  parent,
-  email,
-  phone,
-  address,
-}: StudentInfoProps) {
+export default function StudentInfo({ student }: StudentInfoProps) {
   return (
     <div className="lg:col-span-1 space-y-6">
       <StudentAvatarInfo
-        age={age}
-        name={name}
-        enrollmentDate={enrollmentDate}
-        classe={classe}
+        birthDate={student.birthDate}
+        name={student.name}
+        createdAt={formatDate(student.createdAt)}
+        gradeLevel={student.gradeLevel}
       />
       <StudentContact
-        parent={parent}
-        email={email}
-        phone={phone}
-        address={address}
+        responsibleName={student.responsibleName}
+        responsiblePhone={student.responsiblePhone}
+        address={student.address}
       />
     </div>
   );
