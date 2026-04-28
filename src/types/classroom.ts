@@ -10,3 +10,8 @@ export interface ClassroomResponse extends ClassroomRequest {
   code: string;
   createdAt: string;
 }
+
+export interface ClassroomStatsResponse {
+  studentsTotal: number;
+  classesTotal: number;
+}

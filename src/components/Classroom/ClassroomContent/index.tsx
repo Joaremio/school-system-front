@@ -14,6 +14,7 @@ type ClassroomContentProps = {
 
 export function ClassroomContent({ classrooms }: ClassroomContentProps) {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div>
       <div className="flex justify-between items-center">

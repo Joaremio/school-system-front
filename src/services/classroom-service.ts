@@ -1,4 +1,8 @@
-import { ClassroomRequest, ClassroomResponse } from "@/types/classroom";
+import {
+  ClassroomRequest,
+  ClassroomResponse,
+  ClassroomStatsResponse,
+} from "@/types/classroom";
 import { api } from "./api";
 
 export async function createClassroom(
@@ -31,4 +35,9 @@ export async function updateClassroom(
 
 export async function deleteClassroom(id: number): Promise<void> {
   await api.delete(`/classroom/${id}`);
+}
+
+export async function getClassroomStats(): Promise<ClassroomStatsResponse> {
+  const response = await api.get<ClassroomStatsResponse>("/classroom/stats");
+  return response.data;
 }
