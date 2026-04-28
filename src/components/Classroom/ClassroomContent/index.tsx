@@ -6,8 +6,13 @@ import ClassroomStats from "../ClassroomStats";
 import ClassroomList from "../ClassroomList";
 import { useState } from "react";
 import CreateClassroomDialog from "../CreateClassroomDialog";
+import { ClassroomResponse } from "@/types/classroom";
 
-export function ClassroomContent() {
+type ClassroomContentProps = {
+  classrooms: ClassroomResponse[];
+};
+
+export function ClassroomContent({ classrooms }: ClassroomContentProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -30,7 +35,7 @@ export function ClassroomContent() {
       </div>
       <CreateClassroomDialog isOpen={isOpen} onOpenChange={setIsOpen} />
       <ClassroomStats />
-      <ClassroomList />
+      <ClassroomList classrooms={classrooms} />
     </div>
   );
 }

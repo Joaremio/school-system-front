@@ -1,12 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { createClassroom } from "@/services/classroom-service";
 
-export function ClassroomForm() {
+type ClassroomFormTypes = {
+  onOpenChange: (open: boolean) => void;
+};
+
+export function ClassroomForm({ onOpenChange }: ClassroomFormTypes) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     shift: "MATUTINO",
     startTime: "",
@@ -22,21 +29,19 @@ export function ClassroomForm() {
     });
   }
 
-  // async function handleSubmit(e: React.FormEvent) {
-  //   e.preventDefault();
-
-  //   await fetch("http://localhost:8080/classrooms", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(formData),
-  //     credentials: "include",
-  //   });
-  // }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await createClassroom(formData);
+      router.refresh();
+      onOpenChange(false);
+    } catch (error) {
+      console.error("Erro ao criar turma:", error);
+    }
+  };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="lg:col-span-2">
         <Card className="p-6">
           <h3 className="font-semibold text-lg mb-2">Dados da turma</h3>

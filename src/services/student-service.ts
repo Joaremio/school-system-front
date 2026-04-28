@@ -22,3 +22,10 @@ export async function updateStudent(id: string, data: StudentRequest) {
 export async function deleteStudent(id: number) {
   await api.delete(`/students/${id}`);
 }
+
+export async function getStudentsThatDontInThisClassroom(classroomId: number) {
+  const response = await api.get<StudentResponse[]>(
+    `/students/not-enrolled/${classroomId}`,
+  );
+  return response.data;
+}

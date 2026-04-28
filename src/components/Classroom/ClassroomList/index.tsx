@@ -1,71 +1,56 @@
 "use client";
 
-import { Clock, UserPlus } from "lucide-react";
+import { Clock, Eye, UserPlus, Trash } from "lucide-react";
 import { Card } from "../../ui/card";
 import { Button } from "../../ui/button";
-import { Progress } from "../../ui/progress";
-import { Badge } from "../../ui/badge";
 import ClassroomDialog from "../ClassroomDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ClassroomResponse } from "@/types/classroom";
+import { deleteClassroom } from "@/services/classroom-service";
 
-const classesData = [
-  {
-    id: 1,
-    name: "4º Ano A",
-    teacher: "Prof. Shirley",
-    students: 18,
-    capacity: 20,
-    schedule: "Segunda e Quarta - 14h às 16h",
-    subjects: ["Matemática", "Português"],
-    color: "bg-red-500",
-  },
-  {
-    id: 2,
-    name: "4º Ano B",
-    teacher: "Prof. Shirley",
-    students: 15,
-    capacity: 20,
-    schedule: "Terça e Quinta - 14h às 16h",
-    subjects: ["Matemática", "Ciências"],
-    color: "bg-blue-500",
-  },
-  {
-    id: 3,
-    name: "5º Ano A",
-    teacher: "Prof. Shirley",
-    students: 20,
-    capacity: 20,
-    schedule: "Segunda e Quarta - 16h às 18h",
-    subjects: ["Matemática", "Português"],
-    color: "bg-green-500",
-  },
-  {
-    id: 4,
-    name: "5º Ano B",
-    teacher: "Prof. Shirley",
-    students: 17,
-    capacity: 20,
-    schedule: "Terça e Quinta - 16h às 18h",
-    subjects: ["Português", "História"],
-    color: "bg-amber-500",
-  },
-];
+type ClassroomListProps = {
+  classrooms: ClassroomResponse[];
+};
 
-export default function ClassroomList() {
+export default function ClassroomList({ classrooms }: ClassroomListProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedClass, setSelectedClass] = useState<any>(null);
+  const [selectedClass, setSelectedClass] = useState<ClassroomResponse | null>(
+    null,
+  );
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const router = useRouter();
 
   function handleOpenDialog(classItem: any) {
     setSelectedClass(classItem);
     setIsOpen(true);
   }
 
+  function handleOpenDetails(classId: number) {
+    router.push(`/turmas/${classId}`);
+  }
+
+  async function handleDelete(classId: number) {
+    if (!confirm("Tem certeza que deseja excluir esta turma?")) return;
+
+    try {
+      setDeletingId(classId);
+      await deleteClassroom(classId);
+      router.refresh();
+    } catch (error) {
+      console.error("Erro ao excluir turma:", error);
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
+  if (!classrooms.length) {
+    return <div>Nenhuma turma encontrada</div>;
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ">
-      {classesData.map((classItem) => {
-        const occupancyRate = (classItem.students / classItem.capacity) * 100;
-        const hasSpace = classItem.students < classItem.capacity;
-
+      {classrooms.map((classItem) => {
         return (
           <Card
             key={classItem.id}
@@ -73,53 +58,53 @@ export default function ClassroomList() {
           >
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h3 className="text-xl font-semibold mb-1">{classItem.name}</h3>
+                <h3 className="text-xl font-semibold mb-1">{classItem.code}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {classItem.teacher}
+                  {classItem.shift}
                 </p>
               </div>
-              <div className={`w-3 h-3 rounded-full ${classItem.color}`} />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleDelete(classItem.id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <Trash className="w-4 h-4" />
+              </Button>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-sm">
                 <Clock className="w-4 h-4 text-muted-foreground" />
                 <span className="text-muted-foreground">
-                  {classItem.schedule}
+                  {classItem.startTime}
                 </span>
               </div>
 
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Alunos</span>
-                  <span className="font-medium">
-                    {classItem.students}/{classItem.capacity}
-                  </span>
-                </div>
-                <Progress value={occupancyRate} className="h-2" />
-              </div>
-
-              <div>
-                <p className="text-xs text-muted-foreground mb-2">
-                  Disciplinas
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {classItem.subjects.map((subject, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs">
-                      {subject}
-                    </Badge>
-                  ))}
+                  <span className="font-medium">{classItem.students}</span>
                 </div>
               </div>
 
-              <Button
-                className="w-full gap-2"
-                disabled={!hasSpace}
-                onClick={() => handleOpenDialog(classItem)}
-              >
-                <UserPlus className="w-4 h-4" />
-                {hasSpace ? "Adicionar Aluno" : "Turma Cheia"}
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  className="flex-1 gap-2"
+                  onClick={() => handleOpenDetails(classItem.id)}
+                >
+                  <Eye className="w-4 h-4" />
+                  Ver Detalhes
+                </Button>
+                <Button
+                  className="flex-1 gap-2"
+                  onClick={() => handleOpenDialog(classItem)}
+                >
+                  <UserPlus className="w-4 h-4" />
+                  Adicionar
+                </Button>
+              </div>
             </div>
           </Card>
         );
