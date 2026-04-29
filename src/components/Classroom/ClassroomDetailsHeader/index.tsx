@@ -1,17 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, UserPlus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import ClassroomDialog from "../ClassroomDialog";
 import { useState } from "react";
+import Link from "next/link";
 
 type ClassroomDetailsHeaderProps = {
   name: string;
+  classroomId: number;
   onOpenChange: (open: boolean) => void;
 };
 
 export default function ClassroomDetailsHeader({
   name,
   onOpenChange,
+  classroomId,
 }: ClassroomDetailsHeaderProps) {
   return (
     <div className="mb-8">
@@ -31,11 +34,22 @@ export default function ClassroomDetailsHeader({
             </p>
           </div>
         </div>
+        <div className="flex  gap-4">
+          <Button onClick={() => onOpenChange(true)}>
+            <UserPlus className="w-4 h-4" />
+            Adicionar Aluno
+          </Button>
 
-        <Button className="gap-2" onClick={() => onOpenChange(true)}>
-          <UserPlus className="w-4 h-4" />
-          Adicionar Aluno
-        </Button>
+          <Button>
+            <Link
+              href={`/frequencia?turma=${classroomId}`}
+              className="flex gap-2 items-center"
+            >
+              <UserPlus className="w-4 h-4" />
+              Frequência
+            </Link>
+          </Button>
+        </div>
       </div>
     </div>
   );

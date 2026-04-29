@@ -1,5 +1,5 @@
+import ClassroomStats from "@/components/Classroom/ClassroomStats";
 import { RecentEnrollments } from "@/components/Dashboard/RecentEnrollments";
-import { Stats } from "@/components/Dashboard/Stats";
 
 const recentEnrollments = [
   {
@@ -50,7 +50,7 @@ export default function Dashboard() {
           Bem-vinda, Prof. Shirley! Aqui está o resumo do seu reforço escolar.
         </p>
       </div>
-      <Stats />
+      <ClassroomStats />
       <RecentEnrollments recentEnrollments={recentEnrollments} />
     </div>
   );

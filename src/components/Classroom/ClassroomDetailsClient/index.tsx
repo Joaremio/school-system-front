@@ -32,20 +32,18 @@ export default function ClassroomDetailsClient({ classroom, students }: Props) {
         Voltar para Turmas
       </Button>
 
-      <ClassroomDetailsHeader name={classroom.code} onOpenChange={setIsOpen} />
-      <ClassroomDetailsStats
-        capacity={100}
-        studentsNumber={students.length} // ← contagem do array real
+      <ClassroomDetailsHeader
+        name={classroom.code}
+        onOpenChange={setIsOpen}
+        classroomId={classroom.id}
       />
+      <ClassroomDetailsStats capacity={100} studentsNumber={students.length} />
       <ClassroomDialog
         isOpen={isOpen}
         onOpenChange={setIsOpen}
         selectedClass={classroom}
       />
-      <ClassroomStudentsList
-        students={students} // ← array de EnrolledStudentResponse
-        classroomId={classroom.id}
-      />
+      <ClassroomStudentsList students={students} classroomId={classroom.id} />
     </>
   );
 }

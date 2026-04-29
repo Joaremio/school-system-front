@@ -14,9 +14,19 @@ import logoImg from "@/../public/images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export function Sidebar() {
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const linkClass = (path: string) =>
     `p-2 rounded transition flex items-center gap-2 font-semibold ${
@@ -54,7 +64,7 @@ export function Sidebar() {
           Turmas
         </Link>
 
-        <Link href="/turmas" className={linkClass("/turmas")}>
+        <Link href="/frequencia" className={linkClass("/frequencia")}>
           <ClipboardCheck />
           Frequência
         </Link>

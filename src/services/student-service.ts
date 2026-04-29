@@ -29,3 +29,10 @@ export async function getStudentsThatDontInThisClassroom(classroomId: number) {
   );
   return response.data;
 }
+
+export async function getStudentsThatInThisClassroom(classroomId: number) {
+  const response = await api.get<StudentResponse[]>(
+    `/students/enrolled/${classroomId}`,
+  );
+  return response.data;
+}

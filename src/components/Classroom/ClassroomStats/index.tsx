@@ -1,3 +1,5 @@
+"use client";
+
 import { BookOpen, Clock, Users } from "lucide-react";
 import { Card } from "../../ui/card";
 import { useEffect, useState } from "react";
