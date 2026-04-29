@@ -140,41 +140,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api
 
 Este frontend se conecta a um backend. Certifique-se de que o backend esteja rodando e acessível pela URL configurada.
 
-## 🚀 Deploy
 
-### Vercel (Recomendado)
-
-1. Conecte seu repositório no [Vercel](https://vercel.com)
-2. Configure as variáveis de ambiente
-3. Deploy automático a cada push
-
-### Docker
-
-Para deploy com Docker:
-
-```bash
-# Build da imagem
-docker build -t school-system-frontend .
-
-# Executar o container
-docker run -p 3000:3000 school-system-frontend
-```
-
-## 🤝 Contribuição
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 📞 Suporte
-
-Para dúvidas ou suporte, abra uma issue no GitHub ou entre em contato com a equipe de desenvolvimento.
 
 ---
 
