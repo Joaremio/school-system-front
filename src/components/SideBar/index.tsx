@@ -68,6 +68,10 @@ export function Sidebar() {
           <ClipboardCheck />
           Frequência
         </Link>
+        <Link href="/mensalidades" className={linkClass("/mensalidades")}>
+          <ClipboardCheck />
+          Mensalidades
+        </Link>
 
         <Link href="/matricula" className={linkClass("/matricula")}>
           <UserPlus />
