@@ -8,5 +8,19 @@ export interface TuitionResponse {
   paidAmount: number;
   remainingAmount: number;
   status: TuitionStatus;
-  dueDate: String;
+  dueDate: string;
+}
+
+export interface CreatePaymentRequest {
+  amount: number;
+  paymentMethod: string;
+}
+
+export interface PaymentResponse {
+  id: string;
+  tuitionId: string;
+  tuitionStatus: TuitionStatus;
+  paidAmount: number;
+  paymentMethod: string;
+  paymentDate: string;
 }

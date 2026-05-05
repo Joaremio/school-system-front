@@ -16,8 +16,64 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
+import { createPayment } from "@/services/payment-service";
+import { TuitionResponse } from "@/types/payment";
 
-export default function PaymentDialog() {
+const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+};
+
+type PaymentDialogProps = {
+  isPaymentDialogOpen: boolean;
+  setIsPaymentDialogOpen: (value: boolean) => void;
+  selectedTuition: TuitionResponse | null;
+  onPaymentSucess: () => void;
+};
+
+export default function PaymentDialog({
+  isPaymentDialogOpen,
+  setIsPaymentDialogOpen,
+  selectedTuition,
+  onPaymentSucess,
+}: PaymentDialogProps) {
+  const [paymentAmount, setPaymentAmount] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+
+  const handleConfirmPayment = async () => {
+    if (!selectedTuition) return;
+
+    const amount = Number(paymentAmount.replace(",", "."));
+
+    if (!amount || amount <= 0) {
+      alert("Informe um valor de pagamento válido.");
+      return;
+    }
+
+    if (!paymentMethod) {
+      alert("Escolha um método de pagamento.");
+      return;
+    }
+
+    try {
+      await createPayment(String(selectedTuition.id), {
+        amount,
+        paymentMethod: paymentMethod,
+      });
+
+      onPaymentSucess();
+      setIsPaymentDialogOpen(false);
+      setPaymentAmount("");
+      setPaymentMethod("");
+    } catch (error) {
+      console.error(error);
+      alert("Falha ao registrar o pagamento. Tente novamente.");
+    }
+  };
+
   return (
     <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
       <DialogContent className="max-w-md">

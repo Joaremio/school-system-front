@@ -10,10 +10,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TuitionResponse, TuitionStatus } from "@/types/payment";
+import { formatDueDate } from "@/utils/date";
 import { Calendar, CreditCard, Eye } from "lucide-react";
 
 type TuitionTableProps = {
   tuitions: TuitionResponse[];
+  setSelectedTuition: (tuition: TuitionResponse) => void;
+  setIsPaymentDialogOpen: (value: boolean) => void;
 };
 
 const formatCurrency = (value: number) => {
@@ -21,10 +24,6 @@ const formatCurrency = (value: number) => {
     style: "currency",
     currency: "BRL",
   }).format(value);
-};
-
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString("pt-BR");
 };
 
 const getStatusBadge = (status: TuitionStatus) => {
@@ -50,7 +49,15 @@ const getStatusBadge = (status: TuitionStatus) => {
   }
 };
 
-export default function TuitionTable({ tuitions }: TuitionTableProps) {
+export default function TuitionTable({
+  tuitions,
+  setSelectedTuition,
+  setIsPaymentDialogOpen,
+}: TuitionTableProps) {
+  function handlePay(tuition: TuitionResponse) {
+    setIsPaymentDialogOpen(true);
+    setSelectedTuition(tuition);
+  }
   return (
     <Card className="p-6">
       <div className="border rounded-lg overflow-hidden">
@@ -58,7 +65,6 @@ export default function TuitionTable({ tuitions }: TuitionTableProps) {
           <TableHeader>
             <TableRow>
               <TableHead>Nome do Aluno</TableHead>
-              <TableHead>Mês/Ano</TableHead>
               <TableHead>Valor Total</TableHead>
               <TableHead>Valor Pago</TableHead>
               <TableHead>Valor Restante</TableHead>
@@ -101,11 +107,12 @@ export default function TuitionTable({ tuitions }: TuitionTableProps) {
                     </TableCell>
                     <TableCell>{getStatusBadge(tuition.status)}</TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 ml-4">
+                        <span>{formatDueDate(tuition.dueDate)}</span>
                         <Calendar className="w-4 h-4 text-muted-foreground" />
-                        <span>{tuition.dueDate}</span>
                       </div>
                     </TableCell>
+
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button variant="outline" size="sm" className="gap-2">
@@ -113,7 +120,11 @@ export default function TuitionTable({ tuitions }: TuitionTableProps) {
                           Ver
                         </Button>
                         {tuition.status !== "PAGO" && (
-                          <Button size="sm" className="gap-2">
+                          <Button
+                            size="sm"
+                            className="gap-2"
+                            onClick={() => handlePay(tuition)}
+                          >
                             <CreditCard className="w-4 h-4" />
                             Pagar
                           </Button>
